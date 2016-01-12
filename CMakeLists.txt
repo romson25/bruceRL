@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.9)
-project(bruceCGALproject)
+project(bruceRL)
 set(CMAKE_BUILD_TYPE Release)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -23,8 +23,8 @@ if ( CGAL_FOUND )
 endif()
 #________________________________________________________________###
 
-add_library(bruceCGAL SHARED ${SOURCES})
-install(TARGETS bruceCGAL DESTINATION /usr/lib)
+add_library(bruceRL SHARED ${SOURCES})
+install(TARGETS bruceRL DESTINATION /usr/lib)
 
 
 

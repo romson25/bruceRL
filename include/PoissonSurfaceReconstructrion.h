@@ -35,7 +35,7 @@ class PoissonSurfaceReconstructrion
 public:
 PoissonSurfaceReconstructrion(std::string fileName);
 
-std::string reconstruct();
+std::string reconstruct(FT sm_angle = 20.0, FT sm_radius=30.0, FT sm_distance=0.375);
 
 private:
 	void setFilesName(std::string fileName);

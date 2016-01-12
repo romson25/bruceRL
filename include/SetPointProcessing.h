@@ -21,7 +21,7 @@ typedef Kernel::Point_3 Point;
 typedef Kernel::Vector_3 Vector;
 typedef std::pair<Point, Vector> PointVectorPair;
 
- #ifdef CGAL_LINKED_WITH_TBB
+    #ifdef CGAL_LINKED_WITH_TBB
     typedef CGAL::Parallel_tag Concurrency_tag;
     #else
     typedef CGAL::Sequential_tag Concurrency_tag;
@@ -30,40 +30,32 @@ typedef std::pair<Point, Vector> PointVectorPair;
 class SetPointProcessing
 {
 public:
-	SetPointProcessing(std::string fileName);
+    SetPointProcessing(std::string fileName);
 
-	void setRemoveOutlier			(const double removedPercentage, 	unsigned int neighborNumber);
-	void setWlopSimplify			(const double retainPercentage, 	const double neighborRadius);
-	void setSmooth				(unsigned int neighborNumber);
-	void setPcaEstimateNormal (unsigned int neighborNumber);
-
-	std::string compute();
+    std::string compute	(const double outlierRemovedPercentage  = 5.0,
+                         unsigned int outlierNeighborNumber     = 24,
+                         const double wlopRetainPercentage 	= 20.0,
+                         const double wlopNeighborRadius	= 0.5,
+                         unsigned int smoothNumber		= 24,
+                         unsigned int estimateNormalsNumber	= 18);
 
 private:
-	const double removeOutlierPercentage		= 5.0;
-	unsigned int removeOutlierNeighbor			= 24;
-	const double wlopSimplifyPercentage		= 20.0;
-	const double wlopSimplifyNeighbor			= 0.5;
-	unsigned int smoothNeighbor			  	= 24;
-	unsigned int pcaEstimateNormalsNeighbor 	= 18;
+    std::string inputFileName;
+    std::string temporaryFileName;
+    std::string outputFileName;
 
-	std::string inputFileName;
-	std::string temporaryFileName;
-	std::string outputFileName;
+    std::vector<Point> inPoints         {};
+    std::vector<Point> outPoints        {};
+    std::list<PointVectorPair> points	{};
 
-	std::vector<Point> inPoints {};
-	std::vector<Point> outPoints{};
+    void removeOutlier      (const double removedPercentage, unsigned int neighborNumber);
+    void wlopSimplify       (const double retainPercentage,  const double neighborRadius);
+    void smooth             (unsigned int neighborNumber);
+    void pcaEstimateNormals (unsigned int neighborNumber);
 
-	std::list<PointVectorPair> points{};
-
-	void removeOutlier		(const double removedPercentage , 	unsigned int neighborNumber);
-	void wlopSimplify			(const double retainPercentage , 	const double neighborRadius);
-	void smooth				(unsigned int neighborNumber);
-	void pcaEstimateNormals	(unsigned int neighborNumber);
-
-	void setFilesName(std::string fileName);
-	void read();
-	void readPca();
-	void write();
-	std::string writePca();
+    void setFilesName       (std::string fileName);
+    void read();
+    void readPca();
+    void write();
+    std::string writePca();
 };
