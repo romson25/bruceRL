@@ -9,7 +9,11 @@ std::string SetPointProcessing::compute(const double outlierRemovedPercentage,
                                         const double wlopRetainPercentage,
                                         const double wlopNeighborRadius,
                                         unsigned int smoothNumber,
-                                        unsigned int estimateNormalsNumber)
+                                        unsigned int estimateNormalsNumber,
+                                        const double sharpnessAngle,
+                                        const double edgeSensitivity,
+                                        const double neighborRadius,
+                                        const double inputOutputMultiplier)
 {
     read();
     removeOutlier(outlierRemovedPercentage, outlierNeighborNumber);
@@ -19,6 +23,10 @@ std::string SetPointProcessing::compute(const double outlierRemovedPercentage,
 
     readPca();
     pcaEstimateNormals(estimateNormalsNumber);
+    upsampleAndEdge(sharpnessAngle,
+                    edgeSensitivity,
+                    neighborRadius,
+                    inputOutputMultiplier);
     writePca();
 
     return outputFileName;
@@ -66,7 +74,23 @@ void SetPointProcessing::pcaEstimateNormals (unsigned int neighborNumber)
 
     points.erase(unoriented_points_begin, points.end());
 }
+void SetPointProcessing::upsampleAndEdge    (const double sharpness_angle,
+                                             const double edge_sensitivity,
+                                             const double neighbor_radius,
+                                             const double input_output_multiplier)
+{
+    const unsigned int number_of_output_points = points.size() * input_output_multiplier;
 
+    CGAL::edge_aware_upsample_point_set(points.begin(),
+                                        points.end(),
+                                        std::back_inserter(points),
+                                        CGAL::First_of_pair_property_map<PointVectorPair>(),
+                                        CGAL::Second_of_pair_property_map<PointVectorPair>(),
+                                        sharpness_angle,
+                                        edge_sensitivity,
+                                        neighbor_radius,
+                                        number_of_output_points);
+}
 
 void SetPointProcessing::setFilesName   (std::string fileName)
 {

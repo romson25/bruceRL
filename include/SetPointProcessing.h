@@ -3,6 +3,7 @@
 #include <boost/property_map/property_map.hpp>
 
 #include <CGAL/remove_outliers.h>
+#include <CGAL/edge_aware_upsample_point_set.h>
 #include <CGAL/wlop_simplify_and_regularize_point_set.h>
 #include <CGAL/jet_smooth_point_set.h>
 #include <CGAL/pca_estimate_normals.h>
@@ -37,7 +38,11 @@ public:
                          const double wlopRetainPercentage 	= 20.0,
                          const double wlopNeighborRadius	= 0.5,
                          unsigned int smoothNumber		= 24,
-                         unsigned int estimateNormalsNumber	= 18);
+                         unsigned int estimateNormalsNumber	= 18,
+                         const double sharpnessAngle            = 25,
+                         const double edgeSensitivity           = 0,
+                         const double neighborRadius            = 0.25,
+                         const double inputOutputMultiplier     = 4);
 
 private:
     std::string inputFileName;
@@ -52,6 +57,10 @@ private:
     void wlopSimplify       (const double retainPercentage,  const double neighborRadius);
     void smooth             (unsigned int neighborNumber);
     void pcaEstimateNormals (unsigned int neighborNumber);
+    void upsampleAndEdge    (const double sharpness_angle,
+                             const double edge_sensitivity,
+                             const double neighbor_radius,
+                             const double input_output_multiplier);
 
     void setFilesName       (std::string fileName);
     void read();
