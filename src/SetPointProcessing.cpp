@@ -13,7 +13,7 @@ std::string SetPointProcessing::compute(const double outlierRemovedPercentage,
                                         const double sharpnessAngle,
                                         const double edgeSensitivity,
                                         const double neighborRadius,
-                                        const double inputOutputMultiplier)
+                                        unsigned int inputOutputMultiplier)
 {
     read();
     removeOutlier(outlierRemovedPercentage, outlierNeighborNumber);
@@ -77,19 +77,21 @@ void SetPointProcessing::pcaEstimateNormals (unsigned int neighborNumber)
 void SetPointProcessing::upsampleAndEdge    (const double sharpness_angle,
                                              const double edge_sensitivity,
                                              const double neighbor_radius,
-                                             const double input_output_multiplier)
+                                             unsigned int input_output_multiplier)
 {
     const unsigned int number_of_output_points = points.size() * input_output_multiplier;
 
-    CGAL::edge_aware_upsample_point_set(points.begin(),
-                                        points.end(),
-                                        std::back_inserter(points),
-                                        CGAL::First_of_pair_property_map<PointVectorPair>(),
-                                        CGAL::Second_of_pair_property_map<PointVectorPair>(),
-                                        sharpness_angle,
-                                        edge_sensitivity,
-                                        neighbor_radius,
-                                        number_of_output_points);
+    CGAL::edge_aware_upsample_point_set<Concurrency_tag>(
+              points.begin(),
+              points.end(),
+              std::back_inserter(points),
+              CGAL::First_of_pair_property_map<PointVectorPair>(),
+              CGAL::Second_of_pair_property_map<PointVectorPair>(),
+              sharpness_angle,
+              edge_sensitivity,
+              neighbor_radius,
+              number_of_output_points);
+
 }
 
 void SetPointProcessing::setFilesName   (std::string fileName)

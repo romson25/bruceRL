@@ -42,7 +42,7 @@ public:
                          const double sharpnessAngle            = 25,
                          const double edgeSensitivity           = 0,
                          const double neighborRadius            = 0.25,
-                         const double inputOutputMultiplier     = 4);
+                         unsigned int inputOutputMultiplier     = 4);
 
 private:
     std::string inputFileName;
@@ -60,7 +60,7 @@ private:
     void upsampleAndEdge    (const double sharpness_angle,
                              const double edge_sensitivity,
                              const double neighbor_radius,
-                             const double input_output_multiplier);
+                             unsigned int input_output_multiplier);
 
     void setFilesName       (std::string fileName);
     void read();
