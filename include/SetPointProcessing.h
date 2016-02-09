@@ -34,14 +34,14 @@ public:
     SetPointProcessing(std::string fileName);
 
     std::string compute	(const double outlierRemovedPercentage  = 5.0,
-                         unsigned int outlierNeighborNumber     = 24,
+                         unsigned int outlierNeighborNumber     = 36,
                          const double wlopRetainPercentage 	= 20.0,
                          const double wlopNeighborRadius	= 0.5,
-                         unsigned int smoothNumber		= 24,
-                         unsigned int estimateNormalsNumber	= 18,
+                         unsigned int smoothNumber		= 36,
+                         unsigned int estimateNormalsNumber	= 36,
                          const double sharpnessAngle            = 25,
-                         const double edgeSensitivity           = 0,
-                         const double neighborRadius            = 0.25,
+                         const double edgeSensitivity           = 0.0,
+                         const double neighborRadius            = 0.5,
                          unsigned int inputOutputMultiplier     = 4);
 
 private:

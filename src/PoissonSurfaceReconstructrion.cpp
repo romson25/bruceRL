@@ -21,7 +21,7 @@ std::string PoissonSurfaceReconstructrion::reconstruct  (FT sm_angle, FT sm_radi
     //FT sm_radius    = 30;    Max triangle size w.r.t. point set average spacing.
     //FT sm_distance  = 0.375; Surface Approximation error w.r.t. point set average spacing.
 
-    PointList pointsPSR;
+    PointList pointsPSR;https://github.com/romson25/bruceRL.git
     std::ifstream stream(inputFileName.c_str());
 
     if (CGAL::read_xyz_points_and_normals(stream,
